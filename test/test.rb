@@ -1,4 +1,4 @@
-require 'capybara-angular'
+require 'capybara-ng'
 
 
 #puts Angular::ClientScript::functions.keys

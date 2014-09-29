@@ -1,17 +1,19 @@
 module Angular
 module ClientScript
+# /**
+#  * Wait until Angular has finished rendering and has
+#  * no outstanding $http calls before continuing.
+#  *
+#  * Asynchronous.
+#  *
+#  * @param {string} selector The selector housing an ng-app
+#  * @param {function} callback callback
+#  */
   FN_waitForAngular = <<-FN
-/**
- * Wait until Angular has finished rendering and has
- * no outstanding $http calls before continuing.
- *
- * Asynchronous.
- *
- * @param {string} selector The selector housing an ng-app
- * @param {function} callback callback
- */
 function(selector, callback) {
+  return "foo";
   var el = document.querySelector(selector);
+  return el;
   try {
     if (angular.getTestability) {
       angular.getTestability(el).whenStable(callback);
@@ -22,20 +24,21 @@ function(selector, callback) {
   } catch (e) {
     callback(e);
   }
+  return "foobar";
 };
 FN
 
+# /**
+#  * Find a list of elements in the page by their angular binding.
+#  *
+#  * @param {string} binding The binding, e.g. {{cat.name}}.
+#  * @param {boolean} exactMatch Whether the binding needs to be matched exactly
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The elements containing the binding.
+#  */
   FN_findBindings = <<-FN
-/**
- * Find a list of elements in the page by their angular binding.
- *
- * @param {string} binding The binding, e.g. {{cat.name}}.
- * @param {boolean} exactMatch Whether the binding needs to be matched exactly
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} The elements containing the binding.
- */
 function(binding, exactMatch, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
@@ -50,7 +53,7 @@ function(binding, exactMatch, using, rootSelector) {
     if(dataBinding) {
       var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
       if (exactMatch) {
-        var matcher = new RegExp('({|\\s|$|\\|)' + binding + '(}|\\s|^|\\|)');
+        var matcher = new RegExp('({|\\\\s|$|\\\\|)' + binding + '(}|\\\\s|^|\\\\|)');
         if (matcher.test(bindingName)) {
           matches.push(bindings[i]);
         }
@@ -66,30 +69,30 @@ function(binding, exactMatch, using, rootSelector) {
 };
 FN
 
+# /**
+#  * Find an array of elements matching a row within an ng-repeat.
+#  * Always returns an array of only one element for plain old ng-repeat.
+#  * Returns an array of all the elements in one segment for ng-repeat-start.
+#  *
+#  * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
+#  * @param {number} index The row index.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The row of the repeater, or an array of elements
+#  *     in the first row in the case of ng-repeat-start.
+#  */
   FN_findRepeaterRows = <<-FN
-/**
- * Find an array of elements matching a row within an ng-repeat.
- * Always returns an array of only one element for plain old ng-repeat.
- * Returns an array of all the elements in one segment for ng-repeat-start.
- *
- * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
- * @param {number} index The row index.
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} The row of the repeater, or an array of elements
- *     in the first row in the case of ng-repeat-start.
- */
 function(repeater, index, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   var rows = [];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeatElems[i].getAttribute(attr).indexOf(repeater) != -1) {
         rows.push(repeatElems[i]);
@@ -102,7 +105,7 @@ function(repeater, index, using, rootSelector) {
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeatElems[i].getAttribute(attr).indexOf(repeater) != -1) {
         var elem = repeatElems[i];
@@ -122,26 +125,26 @@ function(repeater, index, using, rootSelector) {
  };
 FN
 
+ # /**
+ # * Find all rows of an ng-repeat.
+ # *
+ # * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
+ # * @param {Element} using The scope of the search.
+ # * @param {string} rootSelector The selector to use for the root app element.
+ # *
+ # * @return {Array.<Element>} All rows of the repeater.
+ # */
   FN_findAllRepeaterRows = <<-FN
- /**
- * Find all rows of an ng-repeat.
- *
- * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} All rows of the repeater.
- */
 function(repeater, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeatElems[i].getAttribute(attr).indexOf(repeater) != -1) {
         rows.push(repeatElems[i]);
@@ -151,7 +154,7 @@ function(repeater, using, rootSelector) {
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeatElems[i].getAttribute(attr).indexOf(repeater) != -1) {
         var elem = repeatElems[i];
@@ -169,29 +172,29 @@ function(repeater, using, rootSelector) {
  };
 FN
 
+# /**
+#  * Find an element within an ng-repeat by its row and column.
+#  *
+#  * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
+#  * @param {number} index The row index.
+#  * @param {string} binding The column binding, e.g. '{{cat.name}}'.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The element in an array.
+#  */
   FN_findRepeaterElement = <<-FN
-/**
- * Find an element within an ng-repeat by its row and column.
- *
- * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
- * @param {number} index The row index.
- * @param {string} binding The column binding, e.g. '{{cat.name}}'.
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} The element in an array.
- */
 function(repeater, index, binding, using, rootSelector) {
   var matches = [];
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeatElems[i].getAttribute(attr).indexOf(repeater) != -1) {
         rows.push(repeatElems[i]);
@@ -204,7 +207,7 @@ function(repeater, index, binding, using, rootSelector) {
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeatElems[i].getAttribute(attr).indexOf(repeater) != -1) {
         var elem = repeatElems[i];
@@ -269,28 +272,28 @@ function(repeater, index, binding, using, rootSelector) {
 };
 FN
 
+# /**
+#  * Find the elements in a column of an ng-repeat.
+#  *
+#  * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
+#  * @param {string} binding The column binding, e.g. '{{cat.name}}'.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The elements in the column.
+#  */
   FN_findRepeaterColumn = <<-FN
-/**
- * Find the elements in a column of an ng-repeat.
- *
- * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
- * @param {string} binding The column binding, e.g. '{{cat.name}}'.
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} The elements in the column.
- */
 function(repeater, binding, using, rootSelector) {
   var matches = [];
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeatElems[i].getAttribute(attr).indexOf(repeater) != -1) {
         rows.push(repeatElems[i]);
@@ -303,7 +306,7 @@ function(repeater, binding, using, rootSelector) {
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeatElems[i].getAttribute(attr).indexOf(repeater) != -1) {
         var elem = repeatElems[i];
@@ -366,16 +369,16 @@ function(repeater, binding, using, rootSelector) {
 };
 FN
 
+# /**
+#  * Find elements by model name.
+#  *
+#  * @param {string} model The model name.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The matching elements.
+#  */
   FN_findByModel = <<-FN
-/**
- * Find elements by model name.
- *
- * @param {string} model The model name.
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} The matching elements.
- */
 function(model, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
@@ -384,7 +387,7 @@ function(model, using, rootSelector) {
     return angular.getTestability(using).
         findModels(using, model, true);
   }
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var selector = '[' + prefixes[p] + 'model="' + model + '"]';
     var elements = using.querySelectorAll(selector);
@@ -395,22 +398,22 @@ function(model, using, rootSelector) {
 };
 FN
 
+# /**
+#  * Find elements by options.
+#  *
+#  * @param {string} optionsDescriptor The descriptor for the option
+#  *     (i.e. fruit for fruit in fruits).
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The matching elements.
+#  */
   FN_findByOptions = <<-FN
-/**
- * Find elements by options.
- *
- * @param {string} optionsDescriptor The descriptor for the option
- *     (i.e. fruit for fruit in fruits).
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} The matching elements.
- */
 function(optionsDescriptor, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var selector = '[' + prefixes[p] + 'options="' + optionsDescriptor + '"] option';
     var elements = using.querySelectorAll(selector);
@@ -421,16 +424,16 @@ function(optionsDescriptor, using, rootSelector) {
 };
 FN
 
+# /**
+#  * Find buttons by textual content.
+#  *
+#  * @param {string} searchText The exact text to match.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The matching elements.
+#  */
   FN_findByButtonText = <<-FN
-/**
- * Find buttons by textual content.
- *
- * @param {string} searchText The exact text to match.
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} The matching elements.
- */
 function(searchText, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
@@ -454,16 +457,16 @@ function(searchText, using, rootSelector) {
 };
 FN
 
+# /**
+#  * Find buttons by textual content.
+#  *
+#  * @param {string} searchText The exact text to match.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The matching elements.
+#  */
   FN_findByPartialButtonText = <<-FN
-/**
- * Find buttons by textual content.
- *
- * @param {string} searchText The exact text to match.
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} The matching elements.
- */
 function(searchText, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
@@ -487,17 +490,17 @@ function(searchText, using, rootSelector) {
 };
 FN
 
+# /**
+#  * Find elements by css selector and textual content.
+#  *
+#  * @param {string} cssSelector The css selector to match.
+#  * @param {string} searchText The exact text to match.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} An array of matching elements.
+#  */
   FN_findByCssContainingText = <<-FN
-/**
- * Find elements by css selector and textual content.
- *
- * @param {string} cssSelector The css selector to match.
- * @param {string} searchText The exact text to match.
- * @param {Element} using The scope of the search.
- * @param {string} rootSelector The selector to use for the root app element.
- *
- * @return {Array.<Element>} An array of matching elements.
- */
 function(cssSelector, searchText, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
@@ -515,16 +518,16 @@ function(cssSelector, searchText, using, rootSelector) {
 };
 FN
 
+# /**
+#  * Tests whether the angular global variable is present on a page. Retries
+#  * in case the page is just loading slowly.
+#  *
+#  * Asynchronous.
+#  *
+#  * @param {number} attempts Number of times to retry.
+#  * @param {function} asyncCallback callback
+#  */
   FN_testForAngular = <<-FN
-/**
- * Tests whether the angular global variable is present on a page. Retries
- * in case the page is just loading slowly.
- *
- * Asynchronous.
- *
- * @param {number} attempts Number of times to retry.
- * @param {function} asyncCallback callback
- */
 function(attempts, asyncCallback) {
   var callback = function(args) {
     setTimeout(function() {
@@ -552,15 +555,15 @@ function(attempts, asyncCallback) {
 };
 FN
 
+# /**
+#  * Evalute an Angular expression in the context of a given element.
+#  *
+#  * @param {Element} element The element in whose scope to evaluate.
+#  * @param {string} expression The expression to evaluate.
+#  *
+#  * @return {?Object} The result of the evaluation.
+#  */
   FN_evaluate = <<-FN
-/**
- * Evalute an Angular expression in the context of a given element.
- *
- * @param {Element} element The element in whose scope to evaluate.
- * @param {string} expression The expression to evaluate.
- *
- * @return {?Object} The result of the evaluation.
- */
 function(element, expression) {
   return angular.element(element).scope().$eval(expression);
 };
@@ -578,12 +581,12 @@ functions.allowAnimations = function(element, value) {
 };
 FN
 
+# /**
+#  * Return the current url using $location.absUrl().
+#  *
+#  * @param {string} selector The selector housing an ng-app
+#  */
   FN_getLocationAbsUrl = <<-FN
-/**
- * Return the current url using $location.absUrl().
- *
- * @param {string} selector The selector housing an ng-app
- */
 function(selector) {
   var el = document.querySelector(selector);
   if (angular.getTestability) {
@@ -594,14 +597,14 @@ function(selector) {
 };
 FN
 
+# /**
+#  * Browse to another page using in-page navigation.
+#  *
+#  * @param {string} selector The selector housing an ng-app
+#  * @param {string} url In page URL using the same syntax as $location.url(),
+#  *     /path?search=a&b=c#hash
+#  */
   FN_setLocation = <<-FN
-/**
- * Browse to another page using in-page navigation.
- *
- * @param {string} selector The selector housing an ng-app
- * @param {string} url In page URL using the same syntax as $location.url(),
- *     /path?search=a&b=c#hash
- */
 function(selector, url) {
   var el = document.querySelector(selector);
   if (angular.getTestability) {
@@ -622,7 +625,7 @@ FN
   def self.functions
     Hash[
       self.constants.map do |cn|
-        [cn[3, cn.size], self.const_get(cn)]
+        [cn[3, cn.size].to_sym, self.const_get(cn)]
       end
     ]
   end
@@ -641,9 +644,8 @@ FN
   end
 
   def self.window_scripts
-    parts = functions
-      .map { |name, fn| "#{name}: #{fn}" }
-    "window.clientSideScripts = { #{parts.join(',')} }"
+    functions
+      .map { |name, fn| "window.#{name} = #{fn};" }
   end
 
 end
