@@ -7,6 +7,7 @@ TODO: Write a gem description
 Add this line to your application's Gemfile:
 
     gem 'capybara-ng'
+    gem 'capybara-ng', git: 'git@github.com:kikonen/capybara-ng.git', tag: 'v0.0.1'
 
 And then execute:
 
