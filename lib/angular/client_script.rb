@@ -11,7 +11,6 @@ module ClientScript
 #  */
   FN_waitForAngular = <<-FN
 function(selector, callback) {
-  return "foo";
   var el = document.querySelector(selector);
   return el;
   try {
@@ -24,7 +23,6 @@ function(selector, callback) {
   } catch (e) {
     callback(e);
   }
-  return "foobar";
 };
 FN
 
@@ -567,8 +565,10 @@ FN
 function(element, expression) {
   return angular.element(element).scope().$eval(expression);
 };
+FN
 
-functions.allowAnimations = function(element, value) {
+  FN_allowAnimations = <<-FN
+function(element, value) {
   var ngElement = angular.element(element);
   if (ngElement.allowAnimations) {
     // AngularDart: $testability API.
@@ -598,6 +598,22 @@ function(selector) {
 FN
 
 # /**
+#  * Get current location
+#  *
+#  * @param {string} selector The selector housing an ng-app
+#  * @param {string} url In page URL using the same syntax as $location.url(),
+#  *     /path?search=a&b=c#hash
+#  */
+  FN_getLocation = <<-FN
+function(selector) {
+  var el = document.querySelector(selector);
+  var $injector = angular.element(el).injector();
+  var $location = $injector.get('$location');
+  return $location.url();
+};
+FN
+
+# /**
 #  * Browse to another page using in-page navigation.
 #  *
 #  * @param {string} selector The selector housing an ng-app
@@ -619,6 +635,7 @@ function(selector, url) {
     $location.url(url);
     $rootScope.$digest();
   }
+  return $location.url();
 };
 FN
 

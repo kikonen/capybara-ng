@@ -27,9 +27,18 @@ describe 'capybara', type: :feature  do
 
   it 'test' do
     visit 'http://localhost:4000/sampler'
+
+    p ng_set_location '/hello'
+    expect(ng_get_location_url).to end_with '/hello'
+
+    ng_wait
+    ap ng_get_location_url
+    ap ng_eval 'body', '1 + 1'
+
     ng_repeater_row('view in views', 1).click
     expect(ng_model('server.url').value).to eq 'http://localhost:3001'
     expect(ng_binding('hello').visible_text).to eq 'foo'
+    expect(ng_option("r for r in ['GET', 'POST', 'PUT', 'DELETE']").visible_text).to eq 'GET'
   end
 end
 ```

@@ -1,8 +1,8 @@
 module Angular
   class Waiter
-    def initialize(page)
-      @page = page
-      @setup = Setup.new(page)
+    def initialize(setup)
+      @setup = setup
+      @page = @setup.page
     end
 
     def wait_until_ready
@@ -10,10 +10,11 @@ module Angular
 
       @setup.install
 
+      setup_waiter
       start = Time.now
       until ready?
         timeout! if timeout?(start)
-        @setup.install
+        setup_waiter if @setup.page_reloaded?
         sleep(0.01)
       end
     end
@@ -29,8 +30,31 @@ module Angular
     end
 
     def ready?
-      @page.evaluate_script("window.angularReady")
+      @page.evaluate_script("window.ngReady")
     end
 
+    def setup_waiter
+      script = <<-JS
+        window.ngReady = false;
+        (function() {
+          var app = angular.element(document.querySelector('[ng-app], [data-ng-app]'));
+          var injector = app.injector();
+          var callback = function() {
+            window.ngReady = true;
+          };
+
+          try {
+            if (angular.getTestability) {
+              angular.getTestability(el).whenStable(callback);
+            } else {
+              injector.get('$browser').notifyWhenNoOutstandingRequests(callback);
+            }
+          } catch (e) {
+            callback(e);
+          }
+        })();
+      JS
+      @page.execute_script script
+    end
   end
 end
