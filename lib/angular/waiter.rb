@@ -8,8 +8,6 @@ module Angular
     def wait_until_ready
       return unless @setup.angular_app?
 
-      @setup.install
-
       setup_waiter
       start = Time.now
       until ready?

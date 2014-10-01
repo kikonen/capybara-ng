@@ -15,13 +15,13 @@ module DSL
   #
   # @return current location absolute url
   #
-  def ng_get_location_url(using = 'body')
+  def ng_location_abs(using = 'body')
     ng.make_call :getLocationAbsUrl, [using], false
   end
 
   # @return current location absolute url
   #
-  def ng_get_location(using = 'body')
+  def ng_location(using = 'body')
     ng.make_call :getLocation, [using], false
   end
 
@@ -39,63 +39,16 @@ module DSL
     ng.make_call :evaluate, [selector, expr], false
   end
 
-
   #
-  # @return node first matching query
+  # Node for nth binding match
+  # @return nth node
   #
-  def ng_repeater_row(repeater, row = 0)
-    ng_repeater_rows(repeater, row).first
+  def ng_binding(binding, exact = false, row = 0, using = nil , rootSelector = 'body')
+    ng_bindings(binding, exact, using , rootSelector)[row]
   end
 
   #
-  # @return [node, ...]
-  #
-  def ng_repeater_rows(repeater, row = 0, using = nil , rootSelector = 'body')
-    ng.make_call :findRepeaterRows, [repeater, row, using, rootSelector], true
-  end
-
-  #
-  # @return [node, ...]
-  #
-  def ng_all_repeater_rows(repeater, using = nil , rootSelector = 'body')
-    ng.make_call :findAllRepeaterRows, [repeater, using, rootSelector], true
-  end
-
-  #
-  # @return first node
-  #
-  def ng_repeater_column(repeater, binding, using = nil , rootSelector = 'body')
-    ng_repeater_column(repeater, binding, using, rootSelector).first
-  end
-
-  #
-  # @return [node, ...]
-  #
-  def ng_repeater_columns(repeater, binding, using = nil , rootSelector = 'body')
-    ng.make_call :findRepeaterColumn, [repeater, binding, using, rootSelector], true
-  end
-
-  #
-  # @return first node
-  #
-  def ng_repeater_element(repeater, index, binding, using = nil, rootSelector = 'body')
-    ng_repeater_elements(repeater, index, binding, using, rootSelector).first
-  end
-
-  #
-  # @return [node, ...]
-  #
-  def ng_repeater_elements(repeater, index, binding, using = nil, rootSelector = 'body')
-    ng.make_call :findRepeaterColumn, [repeater, index, binding, using, rootSelector], true
-  end
-
-  #
-  # @return first node
-  #
-  def ng_binding(binding, exact = false, using = nil , rootSelector = 'body')
-    ng_bindings(binding, exact, using , rootSelector).first
-  end
-
+  # All nodes matching binding
   #
   # @return [node, ...]
   #
@@ -104,12 +57,16 @@ module DSL
   end
 
   #
-  # @return first node
+  # Node for nth model match
   #
-  def ng_model(model, using = nil , rootSelector = 'body')
-    ng_models(model, using, rootSelector).first
+  # @return nth node
+  #
+  def ng_model(model, row = 0, using = nil , rootSelector = 'body')
+    ng_models(model, using, rootSelector)[row]
   end
 
+  #
+  # All nodes matching model
   #
   # @return [node, ...]
   #
@@ -118,17 +75,69 @@ module DSL
   end
 
   #
-  # @return first node
+  # Node for nth option
   #
-  def ng_option(options, using = nil , rootSelector = 'body')
-    ng_options(options, using, rootSelector).first
+  # @return nth node
+  #
+  def ng_option(options, row = 0, using = nil , rootSelector = 'body')
+    ng_options(options, using, rootSelector)[row]
+  end
+
+  #
+  # All option values matching option
+  # @return [node, ...]
+  #
+  def ng_options(options, using = nil , rootSelector = 'body')
+    ng.make_call :findByOptions, [options, using, rootSelector], true
+  end
+
+  #
+  # Node for nth repeater row
+  # @return nth node
+  #
+  def ng_repeater_row(repeater, row = 0, using = nil , rootSelector = 'body')
+    ng.make_call(:findRepeaterRows, [repeater, row, using, rootSelector], true).first
+  end
+
+  #
+  # All nodes matching repeater
+  #
+  # @return [node, ...]
+  #
+  def ng_repeater_rows(repeater, using = nil , rootSelector = 'body')
+    ng.make_call :findAllRepeaterRows, [repeater, using, rootSelector], true
+  end
+
+  #
+  # Node for column binding value in row
+  #
+  # @return nth node
+  #
+  def ng_repeater_column(repeater, binding, row = 0, using = nil , rootSelector = 'body')
+    ng_repeater_columns(repeater, binding, using, rootSelector)[row]
+  end
+
+  #
+  # Node for column binding value in all rows
+  #
+  # @return [node, ...]
+  #
+  def ng_repeater_columns(repeater, binding, using = nil , rootSelector = 'body')
+    ng.make_call :findRepeaterColumn, [repeater, binding, using, rootSelector], true
+  end
+
+  #
+  # @return nth node
+  #
+  def ng_repeater_element(repeater, index, binding, row = 0, using = nil, rootSelector = 'body')
+    ng_repeater_elements(repeater, index, binding, using, rootSelector)[row]
   end
 
   #
   # @return [node, ...]
   #
-  def ng_options(options, using = nil , rootSelector = 'body')
-    ng.make_call :findByOptions, [options, using, rootSelector], true
+  def ng_repeater_elements(repeater, index, binding, using = nil, rootSelector = 'body')
+    ng.make_call :findRepeaterElement, [repeater, index, binding, using, rootSelector], true
   end
 end
 end
