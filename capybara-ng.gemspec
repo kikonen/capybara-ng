@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["kari"]
   spec.email         = ["mr.kari.ikonen@gmail.com"]
   spec.summary       = %q{AngularJS for capybara.}
-  spec.description   = %q{AngularJS for capybara.}
-  spec.homepage      = ""
+  spec.description   = %q{AngularJS bindings for capybara.}
+  spec.homepage      = "https://github.com/kikonen/capybara-ng"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", '~> 10.3'
 
-  spec.add_dependency 'awesome_print'
+  spec.add_dependency 'awesome_print', '>= 1.2.0'
 end
