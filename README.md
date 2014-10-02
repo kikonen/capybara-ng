@@ -8,6 +8,7 @@ logic copied from Protractor.
 - https://github.com/jnicklas/capybara
 - https://github.com/angular/protractor
 - https://code.google.com/p/selenium/wiki/RubyBindings
+- https://github.com/teampoltergeist/poltergeist
 - https://github.com/colszowka/phantomjs-gem
 
 ## Installation
