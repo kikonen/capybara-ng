@@ -1,7 +1,14 @@
 # Angular
 
-Basic bindings for AngularJS to be used with Capybara. Logic is based into Protractor.
+Basic bindings for AngularJS to be used with Capybara. Implementation is based into
+logic copied from Protractor.
 
+## Related Projects
+
+- https://github.com/jnicklas/capybara
+- https://github.com/angular/protractor
+- https://code.google.com/p/selenium/wiki/RubyBindings
+- https://github.com/colszowka/phantomjs-gem
 
 ## Installation
 
