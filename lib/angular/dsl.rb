@@ -16,26 +16,33 @@ module DSL
   # @return current location absolute url
   #
   def ng_location_abs(opt = {})
-    ng.make_call :getLocationAbsUrl, [using], opt
+    selector = opt.delete(:rootSelector) || 'body'
+    ng.make_call :getLocationAbsUrl, [selector], opt
   end
 
   # @return current location absolute url
   #
   def ng_location(opt = {})
-    ng.make_call :getLocation, [using], opt
+    selector = opt.delete(:rootSelector) || 'body'
+    ng.make_call :getLocation, [selector], opt
   end
 
   #
   # @return current location
   #
-  def ng_set_location(selector, url, opt = {})
+  def ng_set_location(url, opt = {})
+    selector = opt.delete(:rootSelector) || 'body'
     ng.make_call :setLocation, [selector, url], opt
   end
 
   #
+  # @param opt
+  # - :rootSelector
+  # - :wait
   # @return eval result
   #
-  def ng_eval(selector, expr, opt = {})
+  def ng_eval(expr, opt = {})
+    selector = opt.delete(:rootSelector) || 'body'
     ng.make_call :evaluate, [selector, expr], opt
   end
 

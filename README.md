@@ -3,7 +3,7 @@
 Basic bindings for AngularJS to be used with Capybara. Implementation is based into
 logic copied from Protractor.
 
-NOTE: At this point of development, I would classify DSL API "unstable". This means that 
+NOTE: At this point of development, I would classify DSL API "unstable". This means that
 DSL language may change in incompatible ways.
 
 ## Related Projects
@@ -31,14 +31,22 @@ Or install it yourself as:
 
 ## Usage
 
+### Setup
+
+spec/spec_helper.rb
+````ruby
+RSpec.configure do |config|
+  config.include Angular::DSL
+  ...
+end
+```
+
 ### Experimenting features
 
 ````ruby
 require 'spec_helper'
 
 describe 'capybara', type: :feature  do
-  include Angular::DSL
-
   it 'test' do
     visit 'http://localhost:4000/sampler'
 
@@ -146,7 +154,8 @@ cd sampler
 cd dummy
 bundle
 rails s -p 4000&
-bundle exec rspec spec/request/task_spec.rb 
+bundle exec rspec spec/request/test_spec.rb
+bundle exec rspec spec/request/task_spec.rb
 fg
 CTRL^C
 ```
