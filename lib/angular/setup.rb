@@ -11,9 +11,40 @@ module Angular
       Waiter.new(self).wait_until_ready
     end
 
-    def make_call(method, params, nodes)
-      ng_wait
+    def row(opt)
+      opt.has_key?(:row) ? opt[:row] : 0
+    end
 
+    #
+    # @param opt
+    # - :using
+    # - :rootSelector
+    # - :wait
+    #
+    def get_nodes(method, params, opt = {})
+      opt = {
+        nodes: true,
+        using: nil,
+        rootSelector: 'body',
+      }.merge(opt)
+      make_call(method, params, opt)
+    end
+
+    #
+    # @param opt
+    # - :nodes
+    # - :wait
+    #
+    def make_call(method, params, opt = {})
+      opt = {
+        nodes: false,
+        wait: true,
+      }.merge(opt)
+
+      ng_wait if opt[:wait]
+
+      params << opt[:using] if opt.has_key?(:using)
+      params << opt[:rootSelector] if opt.has_key?(:rootSelector)
       js_params = params.map do |p|
         if p.nil?
           'null'
@@ -26,12 +57,12 @@ module Angular
       end
 
       js = "#{method}(#{js_params.join(', ')});"
-      logger.info js
+      logger.debug js
 
       js_result = page.evaluate_script(js);
-      logger.info js_result
+#      logger.debug js_result
 
-      if nodes
+      if opt[:nodes]
         make_result method, params, js_result
       else
         js_result
