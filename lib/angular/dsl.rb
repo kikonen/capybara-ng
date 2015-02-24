@@ -4,6 +4,14 @@ module DSL
     @ng ||= Angular::Setup.new(Capybara.current_session)
   end
 
+  def ng_root_selector
+    @ng_root_slector ||= Angular.root_selector
+  end
+
+  def ng_root_selector(root_selector)
+    @ng_root_selector = root_selector
+  end
+
   def ng_install
     ng.install
   end
@@ -16,14 +24,14 @@ module DSL
   # @return current location absolute url
   #
   def ng_location_abs(opt = {})
-    selector = opt.delete(:rootSelector) || 'body'
+    selector = opt.delete(:rootSelector) || ng_root_selector
     ng.make_call :getLocationAbsUrl, [selector], opt
   end
 
   # @return current location absolute url
   #
   def ng_location(opt = {})
-    selector = opt.delete(:rootSelector) || 'body'
+    selector = opt.delete(:rootSelector) || ng_root_selector
     ng.make_call :getLocation, [selector], opt
   end
 
@@ -31,7 +39,7 @@ module DSL
   # @return current location
   #
   def ng_set_location(url, opt = {})
-    selector = opt.delete(:rootSelector) || 'body'
+    selector = opt.delete(:rootSelector) || ng_root_selector
     ng.make_call :setLocation, [selector, url], opt
   end
 
@@ -42,7 +50,7 @@ module DSL
   # @return eval result
   #
   def ng_eval(expr, opt = {})
-    selector = opt.delete(:rootSelector) || 'body'
+    selector = opt.delete(:rootSelector) || ng_root_selector
     ng.make_call :evaluate, [selector, expr], opt
   end
 
