@@ -17,6 +17,6 @@ gem 'poltergeist'
 gem 'capybara-ng', path: '../..'
 
 gem 'rspec-rails'
-gem 'cucumber-rails'
+gem 'cucumber-rails', require: false
 
 gem 'bower_vendor'
