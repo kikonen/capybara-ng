@@ -8,7 +8,7 @@ module DSL
     @ng_root_slector ||= Angular.root_selector
   end
 
-  def ng_root_selector(root_selector)
+  def ng_root_selector=(root_selector)
     @ng_root_selector = root_selector
   end
 
