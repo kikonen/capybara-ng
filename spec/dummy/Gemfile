@@ -1,0 +1,22 @@
+source 'https://rubygems.org'
+
+gem 'rails', '4.1.10'
+gem 'sass-rails', '~> 4.0.3'
+gem 'uglifier', '>= 1.3.0'
+gem 'therubyracer',  platforms: :ruby
+
+gem 'pry-rails'
+gem 'awesome_print'
+gem 'oj'
+gem 'hashie'
+
+gem 'webmock'
+gem 'capybara'
+gem 'selenium-webdriver'
+gem 'poltergeist'
+gem 'capybara-ng', path: '../..'
+
+gem 'rspec-rails'
+gem 'cucumber-rails', require: false
+
+gem 'bower_vendor'
