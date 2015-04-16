@@ -1,5 +1,7 @@
 module Angular
   class Setup
+    include Log
+
     attr_reader :page
 
     def initialize(page)
