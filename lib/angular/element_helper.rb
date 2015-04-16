@@ -1,4 +1,7 @@
 module Angular
+#
+# TODO KI NOT USED
+#
 # Build the helper 'element' function for a given instance of Protractor.
 #
 # @private

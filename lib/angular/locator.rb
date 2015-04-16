@@ -1,4 +1,7 @@
 module Angular
+#
+# TODO KI NOT USED
+#
 module Locator
   def binding
 <<-FN

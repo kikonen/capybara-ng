@@ -27,7 +27,7 @@ module Angular
       opt = {
         nodes: true,
         using: nil,
-        rootSelector: 'body',
+        rootSelector: Angular.root_selector,
       }.merge(opt)
       make_call(method, params, opt)
     end

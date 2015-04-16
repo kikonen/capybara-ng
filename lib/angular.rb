@@ -4,6 +4,15 @@ require 'capybara'
 module Angular
   class NotFound < StandardError
   end
+
+  def self.root_selector
+    @root_slector ||= 'body'
+  end
+
+  def self.root_selector=(root_selector)
+    @root_selector = root_selector
+  end
+
 end
 
 require 'angular/log'
