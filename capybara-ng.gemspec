@@ -5,7 +5,7 @@ require 'angular/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "capybara-ng"
-  spec.version       = Angular::VERSION
+  spec.version       = ::Angular::VERSION
   spec.authors       = ["kari"]
   spec.email         = ["mr.kari.ikonen@gmail.com"]
   spec.summary       = %q{AngularJS for capybara.}

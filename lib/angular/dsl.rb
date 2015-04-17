@@ -1,14 +1,14 @@
 module Angular
 module DSL
   def ng
-    @ng ||= Angular::Setup.new(Capybara.current_session)
+    @ng ||= ::Angular::Setup.new(Capybara.current_session)
   end
 
   def ng_root_selector(root_selector = nil)
     if root_selector
       @ng_root_selector = root_selector
     end
-    @ng_root_selector || Angular.root_selector
+    @ng_root_selector || ::Angular.root_selector
   end
 
   def ng_install

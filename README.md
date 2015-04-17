@@ -36,7 +36,7 @@ Or install it yourself as:
 spec/spec_helper.rb
 ````ruby
 RSpec.configure do |config|
-  config.include Angular::DSL
+  config.include ::Angular::DSL
   ...
 end
 ```

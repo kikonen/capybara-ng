@@ -30,7 +30,7 @@ def setup_env
 end
 
 RSpec.configure do |config|
-  config.include Angular::DSL
+  config.include ::Angular::DSL
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
