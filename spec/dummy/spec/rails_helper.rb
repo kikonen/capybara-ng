@@ -52,7 +52,7 @@ RSpec.configure do |config|
   config.before(:each) do |example|
     if [:request, :feature].include? example.metadata[:type]
       # :poltergeist | :chrome
-      Capybara.current_driver = :poltergeist
+      Capybara.current_driver = :chrome
     else
       # :rack_test
       Capybara.use_default_driver
