@@ -3,8 +3,10 @@
 Basic bindings for AngularJS to be used with Capybara. Implementation is based into
 logic copied from Protractor.
 
-NOTE: At this point of development, I would classify DSL API "unstable". This means that
+*NOTE* At this point of development, I would classify DSL API "unstable". This means that
 DSL language may change in incompatible ways.
+
+*NOTE* Only chrome driver is currently working.
 
 ## Related Projects
 
