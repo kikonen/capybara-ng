@@ -41,7 +41,6 @@ module Angular
       opt = {
         nodes: false,
         wait: true,
-        root_selector: ::Angular.root_selector,
       }.merge(opt)
 
       ng_wait if opt[:wait]

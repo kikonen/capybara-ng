@@ -5,10 +5,11 @@ module DSL
   end
 
   def ng_root_selector(root_selector = nil)
+    opt = ng.page.ng_session_options
     if root_selector
-      @ng_root_selector = root_selector
+      opt[:root_selector] = root_selector
     end
-    @ng_root_selector || ::Angular.root_selector
+    opt[:root_selector] || ::Angular.root_selector
   end
 
   def ng_install
