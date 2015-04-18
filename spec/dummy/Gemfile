@@ -26,6 +26,7 @@ gem 'capybara-ng', path: '../..'
 gem 'selenium-webdriver'
 # if using poltergeist driver
 gem 'poltergeist'
+gem 'chromedriver-helper'
 
 #
 # test frameworks
