@@ -1,6 +1,14 @@
 language: ruby
 rvm:
   - 2.1.5
-cache: bundler
+sudo: false
+cache:
+  directories:
+  - vendor/bundle
 
+branches:
+  only:
+    - master
+
+before_script: travis/setup.sh
 script: travis/run.sh
