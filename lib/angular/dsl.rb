@@ -100,7 +100,23 @@ module DSL
   #
   def ng_bindings(binding, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findBindings, [binding, opt[:exact] == true], opt
+    opt[:root_selector] ||= Angular.root_selector
+    opt[:using] ||= nil
+    ids = ng.make_call(:findBindings, [binding, opt[:exact] == true], opt)[0]
+
+    # TODO KI move this to Setup class
+    result = []
+    [ids].each do |id|
+      id = id.tr('"', '')
+      selector = "//*[@capybara-ng-match='#{id}']"
+      nodes = ng.page.driver.find_xpath(selector)
+      result.concat(nodes) if nodes.present?
+    end
+    page.evaluate_script("window.clearCapybaraNgMatches(#{opt[:root_selector]})");
+
+    raise NotFound.new("Binding #{binding}: #{opt.inspect}") if result.empty?
+
+    result
   end
 
   #

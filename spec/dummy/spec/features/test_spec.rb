@@ -11,12 +11,14 @@ describe TestController, js: true do
     m = ng_model('ctrl.name')
     m.set('foobar')
 
-    ng_options('item.label for item in ctrl.items track by item.id')
-
-#    b = ng_binding('ctrl.name', row: 0)
-#    expect(b.visible_text).to eq 'foobar'
-#    expect(ng_bindings('ctrl.name')[0].visible_text).to eq 'foobar'
+    # TEST bindings
+    b = ng_binding('ctrl.name', row: 0)
+    expect(b.visible_text).to eq 'foobar'
+    expect(ng_bindings('ctrl.name')[0].visible_text).to eq 'foobar'
 
     expect(m.value).to eq 'foobar'
+
+    # TEST: options
+    ng_options('item.label for item in ctrl.items track by item.id')
   end
 end

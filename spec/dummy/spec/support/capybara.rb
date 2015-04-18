@@ -10,4 +10,4 @@ Capybara.register_driver :poltergeist do |app|
 end
 
 Capybara.default_driver = :rack_test
-Capybara.javascript_driver = :chrome
+Capybara.javascript_driver = :webkit

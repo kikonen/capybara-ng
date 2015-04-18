@@ -33,8 +33,42 @@ module Angular
 
     def setup_waiter
       script = <<-JS
-        window.ngReady = false;
         (function() {
+          "use strict";
+
+          window.ngReady = false;
+
+          window.nextCapybaraId = function() {
+            window.capybaraId = window.capybaraId || 1;
+            return window.capybaraId++;
+          };
+
+          window.createCapybaraNgMatches = function(nodes) {
+            if (!nodes) {
+              return nodes;
+            }
+
+            var matches = [];
+            nodes.forEach(function(node) {
+              var match = "cb_" + window.nextCapybaraId();
+              node.setAttribute('capybara-ng-match', match);
+              matches.push(match);
+            });
+
+            return matches;
+          };
+
+          window.clearCapybaraNgMatches = function(rootSelector) {
+            rootSelector = rootSelector || 'body';
+            var root = document.querySelector(rootSelector);
+
+            var nodes = root.querySelectorAll('[capybara-ng-match]');
+            nodes.forEach(function(node) {
+              node.removeAttribute('capybara-ng-match');
+            });
+            return nodes;
+          };
+
           var app = angular.element(document.querySelector('[ng-app], [data-ng-app]'));
           var injector = app.injector();
           var callback = function() {

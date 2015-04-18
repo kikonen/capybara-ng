@@ -41,8 +41,9 @@ function(binding, exactMatch, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
   if (angular.getTestability) {
-    return angular.getTestability(using).
+    var nodes = angular.getTestability(using).
         findBindings(using, binding, exactMatch);
+    return createCapybaraNgMatches(nodes);
   }
   var bindings = using.getElementsByClassName('ng-binding');
   var matches = [];
