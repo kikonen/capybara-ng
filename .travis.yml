@@ -1,6 +1,15 @@
 language: ruby
 rvm:
   - 2.1.5
+sudo: false
 cache: bundler
+#  directories:
+#  - vendor/bundle
+#  - spec/dummy/vendor/bundl
+gemfile: spec/dummy/Gemfile
+branches:
+  only:
+    - master
 
+before_script: travis/setup.sh
 script: travis/run.sh

@@ -1,6 +1,13 @@
 cd spec/dummy
-export GEM_FILE=$PWF/Gemfile
-bundle install
+export BUNDLE_GEMFILE=$PWD/Gemfile
 
 bundle exec cucumber
+EXIT_1=$?
+
 bundle exec rspec
+EXIT_2=$?
+
+if [[ $EXIT_1 != 0 || $EXIT_2 != 0 ]]; then
+    echo "Failed"
+    exit 1
+fi
