@@ -1,18 +1,12 @@
 echo "================================"
-ls -al vendor
+ls -al vendor/bundle
 echo "================================"
 
 cd spec/dummy
-
-echo "================================"
-export
-echo "================================"
-env
-echo "================================"
 
 export BUNDLE_GEMFILE=$PWD/Gemfile
 bundle install
 
 echo "================================"
-ls -al vendor
+ls -al vendor/bundle
 echo "================================"
