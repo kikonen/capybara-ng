@@ -5,6 +5,7 @@ sudo: false
 cache:
   directories:
   - vendor/bundle
+  - spec/dummy/vendor/bundle
 
 branches:
   only:
