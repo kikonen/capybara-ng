@@ -7,6 +7,7 @@ EXIT_1=$?
 bundle exec rspec
 EXIT_2=$?
 
-if [[ $EXIT_1 != 0 || $EXIT_2 != 0]]; then
+if [[ $EXIT_1 != 0 || $EXIT_2 != 0 ]]; then
+    echo "Failed"
     exit 1
 fi
