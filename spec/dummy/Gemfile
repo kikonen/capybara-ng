@@ -10,6 +10,7 @@ gem 'pry-rails'
 gem 'awesome_print'
 gem 'oj'
 gem 'hashie'
+gem 'pry-byebug'
 
 # Vendor assets management
 gem 'bower_vendor'
@@ -27,7 +28,7 @@ gem 'selenium-webdriver'
 # if using poltergeist driver
 gem 'poltergeist'
 #gem 'chromedriver-helper'
-#gem 'capybara-webkit'
+gem 'capybara-webkit'
 
 #
 # test frameworks

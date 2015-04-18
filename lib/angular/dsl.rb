@@ -146,7 +146,14 @@ module DSL
   #
   def ng_models(model, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findByModel, [model], opt
+    opt[:root_selector] ||= Angular.root_selector
+
+    ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'].each do |prefix|
+      selector = "//*[@#{prefix}model='#{model}']"
+      nodes = ng.page.driver.find_xpath(selector)
+      return nodes if nodes.present?
+    end
+    raise NotFound.new("#{model}: #{opt.inspect}")
   end
 
   #
@@ -193,7 +200,14 @@ module DSL
   #
   def ng_options(options, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findByOptions, [options], opt
+    opt[:root_selector] ||= Angular.root_selector
+
+    ['ng-', 'ng_', 'data-ng-', 'x-ng-'].each do |prefix|
+      selector = "//*[@#{prefix}options='#{options}']/option"
+      nodes = ng.page.driver.find_xpath(selector)
+      return nodes if nodes.present?;
+    end
+    raise NotFound.new("#{options}: #{opt.inspect}")
   end
 
   #
