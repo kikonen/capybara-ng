@@ -1,5 +1,5 @@
 cd spec/dummy
-export GEM_FILE=$PWF/Gemfile
+export BUNDLE_GEMFILE=$PWD/Gemfile
 bundle install
 
 bundle exec cucumber
