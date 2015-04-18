@@ -41,6 +41,17 @@ RSpec.configure do |config|
 end
 ```
 
+## Examples
+
+### Example test cases
+
+````bash
+cd spec/dummy
+bundle
+bundle exec rake rspec
+bundle exec rake cucumber
+```
+
 ### Experimenting features
 
 @see https://github.com/kikonen/sampler/blob/master/dummy/spec/request/test_spec.rb
