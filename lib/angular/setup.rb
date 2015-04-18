@@ -20,14 +20,14 @@ module Angular
     #
     # @param opt
     # - :using
-    # - :rootSelector
+    # - :root_selector
     # - :wait
     #
     def get_nodes(method, params, opt = {})
       opt = {
         nodes: true,
         using: nil,
-        rootSelector: ::Angular.root_selector,
+        root_selector: ::Angular.root_selector,
       }.merge(opt)
       make_call(method, params, opt)
     end
@@ -41,12 +41,13 @@ module Angular
       opt = {
         nodes: false,
         wait: true,
+        root_selector: ::Angular.root_selector,
       }.merge(opt)
 
       ng_wait if opt[:wait]
 
       params << opt[:using] if opt.has_key?(:using)
-      params << opt[:rootSelector] if opt.has_key?(:rootSelector)
+      params << opt[:root_selector] if opt.has_key?(:root_selector)
       js_params = params.map do |p|
         if p.nil?
           'null'
@@ -75,6 +76,10 @@ module Angular
     def make_result(method, params, js_result)
       if js_result.nil? || js_result.empty?
         raise NotFound.new("#{method}: #{params.inspect}")
+      end
+
+      if js_result.is_a? String
+        raise js_result
       end
 
       js_result.map do |el|
