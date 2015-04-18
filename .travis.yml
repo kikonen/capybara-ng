@@ -1,0 +1,6 @@
+language: ruby
+rvm:
+  - 2.1.5
+cache: bundler
+
+script: travis/run.sh
