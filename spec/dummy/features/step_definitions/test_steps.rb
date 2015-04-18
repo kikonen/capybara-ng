@@ -1,5 +1,5 @@
 Given(/^I am testing angularJS$/) do
-  ng_root_selector '#app'
+  ng_root_selector '[ng-app]'
   visit 'http://localhost:4000'
 end
 
