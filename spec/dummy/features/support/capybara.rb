@@ -13,5 +13,5 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app)
 end
 
-Capybara.default_driver = :chrome #:rack_test
-Capybara.javascript_driver = :chrome
+Capybara.default_driver = :poltergeist #:rack_test
+Capybara.javascript_driver = :poltergeist

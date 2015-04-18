@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TestController, type: :feature do
+describe TestController, js: true do
   it 'angular js starts' do
     ng_root_selector '#app'
     visit 'http://localhost:4000'

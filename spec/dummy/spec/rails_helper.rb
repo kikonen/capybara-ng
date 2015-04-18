@@ -9,6 +9,7 @@ require 'webmock/rspec'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
+#require "capybara-webkit"
 require 'capybara-ng'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -48,16 +49,6 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   WebMock.disable_net_connect!(allow_localhost: true)
-
-  config.before(:each) do |example|
-    if [:request, :feature].include? example.metadata[:type]
-      # :poltergeist | :chrome
-      Capybara.current_driver = :chrome
-    else
-      # :rack_test
-      Capybara.use_default_driver
-    end
-  end
 
   config.after(:each) do
     # wait on async calls to finish.
