@@ -34,6 +34,37 @@ module Angular
 
     #
     # @param opt
+    # - :using
+    # - :root_selector
+    # - :wait
+    #
+    def get_nodes_2(method, params, opt = {})
+      opt = {
+        nodes: false,
+        using: nil,
+        root_selector: ::Angular.root_selector,
+      }.merge(opt)
+      ids = make_call(method, params, opt)
+     raise NotFound.new("#{method}: #{params} - #{opt.inspect}") if ids.nil? || ids.empty?
+      make_nodes(ids, opt)
+    end
+
+    def make_nodes(ids, opt)
+      result = []
+      ids.each do |id|
+        id = id.tr('"', '')
+        selector = "//*[@capybara-ng-match='#{id}']"
+        nodes = page.driver.find_xpath(selector)
+
+        raise NotFound.new("Failed to match found id to node") if nodes.empty?
+        result.concat(nodes)
+      end
+      page.evaluate_script("clearCapybaraNgMatches('#{opt[:root_selector]}')");
+      result
+    end
+
+    #
+    # @param opt
     # - :nodes
     # - :wait
     #
@@ -60,7 +91,6 @@ module Angular
 
       js = "#{method}(#{js_params.join(', ')});"
       logger.debug js
-
       js_result = page.evaluate_script(js);
 #      logger.debug js_result
 

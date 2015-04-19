@@ -49,12 +49,11 @@ module Angular
             }
 
             var matches = [];
-            nodes.forEach(function(node) {
+            angular.forEach(nodes, function(node) {
               var match = "cb_" + window.nextCapybaraId();
               node.setAttribute('capybara-ng-match', match);
               matches.push(match);
             });
-
             return matches;
           };
 
@@ -63,10 +62,9 @@ module Angular
             var root = document.querySelector(rootSelector);
 
             var nodes = root.querySelectorAll('[capybara-ng-match]');
-            nodes.forEach(function(node) {
+            angular.forEach(nodes, function(node) {
               node.removeAttribute('capybara-ng-match');
             });
-            return nodes;
           };
 
           var app = angular.element(document.querySelector('[ng-app], [data-ng-app]'));

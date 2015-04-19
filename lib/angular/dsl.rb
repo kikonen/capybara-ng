@@ -1,7 +1,7 @@
 module Angular
 module DSL
   def ng
-    @ng ||= ::Angular::Setup.new(Capybara.current_session)
+    Capybara.current_session.ng
   end
 
   def ng_root_selector(root_selector = nil)
@@ -100,23 +100,7 @@ module DSL
   #
   def ng_bindings(binding, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    opt[:root_selector] ||= Angular.root_selector
-    opt[:using] ||= nil
-    ids = ng.make_call(:findBindings, [binding, opt[:exact] == true], opt)[0]
-
-    # TODO KI move this to Setup class
-    result = []
-    [ids].each do |id|
-      id = id.tr('"', '')
-      selector = "//*[@capybara-ng-match='#{id}']"
-      nodes = ng.page.driver.find_xpath(selector)
-      result.concat(nodes) if nodes.present?
-    end
-    page.evaluate_script("window.clearCapybaraNgMatches(#{opt[:root_selector]})");
-
-    raise NotFound.new("Binding #{binding}: #{opt.inspect}") if result.empty?
-
-    result
+    ng.get_nodes_2 :findBindingsIds, [binding, opt[:exact] == true], opt
   end
 
   #
@@ -162,14 +146,7 @@ module DSL
   #
   def ng_models(model, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    opt[:root_selector] ||= Angular.root_selector
-
-    ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'].each do |prefix|
-      selector = "//*[@#{prefix}model='#{model}']"
-      nodes = ng.page.driver.find_xpath(selector)
-      return nodes if nodes.present?
-    end
-    raise NotFound.new("#{model}: #{opt.inspect}")
+    ng.get_nodes_2 :findByModelIds, [model], opt
   end
 
   #

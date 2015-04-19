@@ -9,5 +9,9 @@
     <select ng-model="ctrl.selected" ng-options="item.label for item in ctrl.items track by item.id">
     </select>
     <div>{{ctrl.selected}}</div>
+
+    <div ng-repeat="item in ctrl.items">
+      <div>{{item}}</div>
+    </div
   </div>
 </div>

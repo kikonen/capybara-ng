@@ -40,11 +40,12 @@ FN
 function(binding, exactMatch, using, rootSelector) {
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
+
   if (angular.getTestability) {
-    var nodes = angular.getTestability(using).
+    return angular.getTestability(using).
         findBindings(using, binding, exactMatch);
-    return createCapybaraNgMatches(nodes);
   }
+
   var bindings = using.getElementsByClassName('ng-binding');
   var matches = [];
   for (var i = 0; i < bindings.length; ++i) {
@@ -65,6 +66,23 @@ function(binding, exactMatch, using, rootSelector) {
     }
   }
   return matches; /* Return the whole array for webdriver.findElements. */
+};
+FN
+
+# /**
+#  * Find a list of element Ids in the page by their angular binding.
+#  *
+#  * @param {string} binding The binding, e.g. {{cat.name}}.
+#  * @param {boolean} exactMatch Whether the binding needs to be matched exactly
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The elements containing the binding.
+#  */
+  FN_findBindingsIds = <<-FN
+function(binding, exactMatch, using, rootSelector) {
+  var elements = findBindings(binding, exactMatch, using, rootSelector);
+  return createCapybaraNgMatches(elements);
 };
 FN
 
@@ -386,6 +404,7 @@ function(model, using, rootSelector) {
     return angular.getTestability(using).
         findModels(using, model, true);
   }
+
   var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var selector = '[' + prefixes[p] + 'model="' + model + '"]';
@@ -394,6 +413,22 @@ function(model, using, rootSelector) {
       return elements;
     }
   }
+};
+FN
+
+# /**
+#  * Find element ids by model name.
+#  *
+#  * @param {string} model The model name.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The matching elements.
+#  */
+  FN_findByModelIds = <<-FN
+function(model, using, rootSelector) {
+  var elements = findByModel(model, using, rootSelector);
+  return createCapybaraNgMatches(elements);
 };
 FN
 

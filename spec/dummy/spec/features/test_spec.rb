@@ -7,6 +7,10 @@ describe TestController, js: true do
     ng_wait
     expect(ng_eval('1 + 1')).to be 2
 
+    # TEST model
+    m = ng_model('ctrl.name')
+    expect(has_ng_model?('ctrl.name')).to eq true
+
     expect(page).to have_ng_model('ctrl.name')
     m = ng_model('ctrl.name')
     m.set('foobar')
