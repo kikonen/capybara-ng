@@ -218,14 +218,7 @@ module DSL
   #
   def ng_options(options, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    opt[:root_selector] ||= Angular.root_selector
-
-    ['ng-', 'ng_', 'data-ng-', 'x-ng-'].each do |prefix|
-      selector = "//*[@#{prefix}options='#{options}']/option"
-      nodes = ng.page.driver.find_xpath(selector)
-      return nodes if nodes.present?;
-    end
-    raise NotFound.new("#{options}: #{opt.inspect}")
+    ng.get_nodes_2(:findByOptionsIds, [options], opt)
   end
 
   #

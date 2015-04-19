@@ -530,6 +530,23 @@ function(optionsDescriptor, using, rootSelector) {
 FN
 
 # /**
+#  * Find elements by options.
+#  *
+#  * @param {string} optionsDescriptor The descriptor for the option
+#  *     (i.e. fruit for fruit in fruits).
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The matching elements.
+#  */
+  FN_findByOptionsIds = <<-FN
+function(optionsDescriptor, using, rootSelector) {
+  var elements = findByOptions(optionsDescriptor, using, rootSelector);
+  return createCapybaraNgMatches(elements);
+};
+FN
+
+# /**
 #  * Find buttons by textual content.
 #  *
 #  * @param {string} searchText The exact text to match.
