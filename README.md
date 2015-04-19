@@ -6,7 +6,13 @@ logic copied from Protractor.
 *NOTE* At this point of development, I would classify DSL API "unstable". This means that
 DSL language may change in incompatible ways.
 
-*NOTE* Only chrome driver is currently working.
+## Supported drivers
+
+Based into testing following drivers should work.
+
+- chrome
+- poltergeist
+- webkit
 
 ## Related Projects
 
