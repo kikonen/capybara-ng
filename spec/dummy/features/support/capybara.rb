@@ -14,4 +14,4 @@ Capybara.register_driver :poltergeist do |app|
 end
 
 Capybara.default_driver = :webkit #:rack_test
-Capybara.javascript_driver = :webkit
+Capybara.javascript_driver = (ENV['CAPYBARA_DRIVER'] || :webkit).to_sym
