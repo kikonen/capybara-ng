@@ -10,8 +10,11 @@
     </select>
     <div>{{ctrl.selected}}</div>
 
-    <div ng-repeat="item in ctrl.items">
-      <div>{{item}}</div>
-    </div
+    <table>
+      <tr ng-repeat="item in ctrl.items">
+        <td>{{item.id}}</td>
+        <td>{{item.label}}</td>
+      </tr>
+    </table>
   </div>
 </div>

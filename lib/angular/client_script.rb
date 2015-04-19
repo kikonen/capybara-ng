@@ -139,7 +139,27 @@ function(repeater, index, using, rootSelector) {
     }
   }
   return [rows[index]].concat(multiRows[index]);
- };
+};
+FN
+
+# /**
+#  * Find an array of element ids matching a row within an ng-repeat.
+#  * Always returns an array of only one element for plain old ng-repeat.
+#  * Returns an array of all the elements in one segment for ng-repeat-start.
+#  *
+#  * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
+#  * @param {number} index The row index.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The row of the repeater, or an array of elements
+#  *     in the first row in the case of ng-repeat-start.
+#  */
+  FN_findRepeaterRowsIds = <<-FN
+function(repeater, index, using, rootSelector) {
+  var elements = findRepeaterRows(repeater, index, using, rootSelector);
+  return createCapybaraNgMatches(elements);
+};
 FN
 
  # /**
@@ -186,7 +206,23 @@ function(repeater, using, rootSelector) {
     }
   }
   return rows;
- };
+};
+FN
+
+ # /**
+ # * Find all rows ids of an ng-repeat.
+ # *
+ # * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
+ # * @param {Element} using The scope of the search.
+ # * @param {string} rootSelector The selector to use for the root app element.
+ # *
+ # * @return {Array.<Element>} All rows of the repeater.
+ # */
+  FN_findAllRepeaterRowsIds = <<-FN
+function(repeater, using, rootSelector) {
+  var elements = findAllRepeaterRows(repeater, using, rootSelector);
+  return createCapybaraNgMatches(elements);
+};
 FN
 
 # /**
@@ -290,6 +326,24 @@ function(repeater, index, binding, using, rootSelector) {
 FN
 
 # /**
+#  * Find an element ids within an ng-repeat by its row and column.
+#  *
+#  * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
+#  * @param {number} index The row index.
+#  * @param {string} binding The column binding, e.g. '{{cat.name}}'.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The element in an array.
+#  */
+  FN_findRepeaterElementIds = <<-FN
+function(repeater, index, binding, using, rootSelector) {
+  var elements = findRepeaterElement(repeater, index, binding, using, rootSelector);
+  return createCapybaraNgMatches(elements);
+};
+FN
+
+# /**
 #  * Find the elements in a column of an ng-repeat.
 #  *
 #  * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
@@ -383,6 +437,23 @@ function(repeater, binding, using, rootSelector) {
     }
   }
   return matches;
+};
+FN
+
+# /**
+#  * Find the elements in a column of an ng-repeat.
+#  *
+#  * @param {string} repeater The text of the repeater, e.g. 'cat in cats'.
+#  * @param {string} binding The column binding, e.g. '{{cat.name}}'.
+#  * @param {Element} using The scope of the search.
+#  * @param {string} rootSelector The selector to use for the root app element.
+#  *
+#  * @return {Array.<Element>} The elements in the column.
+#  */
+  FN_findRepeaterColumnIds = <<-FN
+function(repeater, binding, using, rootSelector) {
+  var elements = findRepeaterColumn(repeater, binding, using, rootSelector);
+  return createCapybaraNgMatches(elements);
 };
 FN
 

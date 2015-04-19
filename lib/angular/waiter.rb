@@ -50,9 +50,11 @@ module Angular
 
             var matches = [];
             angular.forEach(nodes, function(node) {
-              var match = "cb_" + window.nextCapybaraId();
-              node.setAttribute('capybara-ng-match', match);
-              matches.push(match);
+              if (node) {
+                var match = "cb_" + window.nextCapybaraId();
+                node.setAttribute('capybara-ng-match', match);
+                matches.push(match);
+              }
             });
             return matches;
           };
