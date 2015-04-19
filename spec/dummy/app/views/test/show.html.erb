@@ -1,7 +1,20 @@
 <div>Simple Example</div>
-<div id="app" ng-app="test" controller="Test as ctrl">
-  <div>
-    <input ng-model="ctrl.name"/>
+<div id="app" ng-app="test">
+  <div ng-controller="TestController as ctrl">
+    <div>
+      <input ng-model="ctrl.name"/>
+    </div>
+    <div>{{ctrl.name}}</div>
+
+    <select ng-model="ctrl.selected" ng-options="item.label for item in ctrl.items track by item.id">
+    </select>
+    <div>{{ctrl.selected}}</div>
+
+    <table>
+      <tr ng-repeat="item in ctrl.items">
+        <td>{{item.id}}</td>
+        <td>{{item.label}}</td>
+      </tr>
+    </table>
   </div>
-  <div>{{ctrl.name}}</div>
 </div>

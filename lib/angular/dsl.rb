@@ -1,7 +1,7 @@
 module Angular
 module DSL
   def ng
-    @ng ||= ::Angular::Setup.new(Capybara.current_session)
+    Capybara.current_session.ng
   end
 
   def ng_root_selector(root_selector = nil)
@@ -100,7 +100,7 @@ module DSL
   #
   def ng_bindings(binding, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findBindings, [binding, opt[:exact] == true], opt
+    ng.get_nodes_2 :findBindingsIds, [binding, opt[:exact] == true], opt
   end
 
   #
@@ -117,6 +117,18 @@ module DSL
     true
   rescue NotFound
     false
+  end
+  #
+  # Does model not exist
+  #
+  # @param opt
+  # - :using
+  # - :root_selector
+  # - :wait
+  # @return true | false
+  #
+  def has_no_ng_model?(model, opt = {})
+    !has_ng_model?(model, opt)
   end
 
   #
@@ -146,7 +158,7 @@ module DSL
   #
   def ng_models(model, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findByModel, [model], opt
+    ng.get_nodes_2 :findByModelIds, [model], opt
   end
 
   #
@@ -158,12 +170,25 @@ module DSL
   # - :wait
   # @return true | false
   #
-  def has_ng_option?(options, opt = {})
+  def has_ng_options?(options, opt = {})
     opt[:root_selector] ||= ng_root_selector
     ng_options(options, opt)
     true
   rescue NotFound
     false
+  end
+
+  #
+  # Does option not exist
+  #
+  # @param opt
+  # - :using
+  # - :root_selector
+  # - :wait
+  # @return true | false
+  #
+  def has_no_ng_options?(options, opt = {})
+    !has_ng_options?(options, opt)
   end
 
   #
@@ -193,7 +218,7 @@ module DSL
   #
   def ng_options(options, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findByOptions, [options], opt
+    ng.get_nodes_2(:findByOptionsIds, [options], opt)
   end
 
   #
@@ -206,11 +231,23 @@ module DSL
   # @return true | false
   #
   def has_ng_repeater_row?(repeater, opt = {})
-    opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes(:findRepeaterRows, [repeater, 0], opt)
+    ng_repeater_row(repeater, opt)
     true
   rescue NotFound
     false
+  end
+
+  #
+  # Does row not exist
+  #
+  # @param opt
+  # - :using
+  # - :root_selector
+  # - :wait
+  # @return true | false
+  #
+  def has_no_ng_repeater_row?(repeater, opt = {})
+    !has_ng_repeater_rows?(repeater, opt)
   end
 
   #
@@ -226,7 +263,7 @@ module DSL
   def ng_repeater_row(repeater, opt = {})
     opt[:root_selector] ||= ng_root_selector
     row = ng.row(opt)
-    data = ng.get_nodes(:findRepeaterRows, [repeater, row], opt)
+    data = ng.get_nodes_2(:findRepeaterRowsIds, [repeater, row], opt)
     data.first
   end
 
@@ -241,7 +278,7 @@ module DSL
   #
   def ng_repeater_rows(repeater, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findAllRepeaterRows, [repeater], opt
+    ng.get_nodes_2 :findAllRepeaterRowsIds, [repeater], opt
   end
 
   #
@@ -271,7 +308,7 @@ module DSL
   #
   def ng_repeater_columns(repeater, binding, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findRepeaterColumn, [repeater, binding], opt
+    ng.get_nodes_2 :findRepeaterColumnIds, [repeater, binding], opt
   end
 
   #
@@ -297,7 +334,7 @@ module DSL
   #
   def ng_repeater_elements(repeater, index, binding, opt = {})
     opt[:root_selector] ||= ng_root_selector
-    ng.get_nodes :findRepeaterElement, [repeater, index, binding], opt
+    ng.get_nodes_2 :findRepeaterElementIds, [repeater, index, binding], opt
   end
 end
 end
