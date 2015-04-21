@@ -1,5 +1,6 @@
 require "angular/version"
 require 'capybara'
+require 'logger'
 
 module Angular
   class NotFound < StandardError
@@ -13,6 +14,13 @@ module Angular
     @root_selector = root_selector
   end
 
+  def self.logger
+    @logger ||=  defined?(::Rails) ? ::Rails.logger : Logger.new('capybara-ng.log')
+  end
+
+  def self.logger=(logger)
+    @logger = logger
+  end
 end
 
 require 'angular/log'
