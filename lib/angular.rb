@@ -6,10 +6,16 @@ module Angular
   class NotFound < StandardError
   end
 
+  #
+  # @return selector to find ng-app, by default 'body'
+  #
   def self.root_selector
     @root_slector ||= 'body'
   end
 
+  #
+  # Set global default selector for finding ng-app
+  #
   def self.root_selector=(root_selector)
     @root_selector = root_selector
   end

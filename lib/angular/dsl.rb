@@ -1,9 +1,23 @@
 module Angular
+#
+# common options (aka. "opt"):
+# - root_selector Allow overriding global/page per individual query
+# - wait If true wait for AngularJS to be ready before doing quer (default: true)
+#
 module DSL
   def ng
     Capybara.current_session.ng
   end
 
+  #
+  # Get or set selector to find ng-app for current capybara test session
+  #
+  # TIP: try using '[ng-app]', which will find ng-app as attribute anywhere.
+  #
+  # @param root_selector if nil then return current value without change
+  # @return test specific selector to find ng-app,
+  # by default global ::Angular.root_selector is used.
+  #
   def ng_root_selector(root_selector = nil)
     opt = ng.page.ng_session_options
     if root_selector
@@ -12,15 +26,25 @@ module DSL
     opt[:root_selector] || ::Angular.root_selector
   end
 
+  #
+  # Setup AngularJS test hooks in web page. In normal usage there is no need
+  # to use this
+  #
   def ng_install
     ng.install
   end
 
+  #
+  # Wait that AngularJS is ready
+  #
   def ng_wait
     ng.ng_wait
   end
 
   #
+  # @param opt
+  # - :root_selector
+  # - :wait
   # @return current location absolute url
   #
   def ng_location_abs(opt = {})
@@ -28,6 +52,10 @@ module DSL
     ng.make_call :getLocationAbsUrl, [selector], opt
   end
 
+  #
+  # @param opt
+  # - :root_selector
+  # - :wait
   # @return current location absolute url
   #
   def ng_location(opt = {})
@@ -36,6 +64,9 @@ module DSL
   end
 
   #
+  # @param opt
+  # - :root_selector
+  # - :wait
   # @return current location
   #
   def ng_set_location(url, opt = {})
@@ -59,7 +90,6 @@ module DSL
   #
   # @param opt
   # - :exact
-  # - :using
   # - :root_selector
   # - :wait
   # @return true | false
@@ -77,7 +107,6 @@ module DSL
   # @param opt
   # - :row
   # - :exact
-  # - :using
   # - :root_selector
   # - :wait
   # @return nth node
@@ -93,7 +122,6 @@ module DSL
   #
   # @param opt
   # - :exact
-  # - :using
   # - :root_selector
   # - :wait
   # @return [node, ...]
@@ -107,7 +135,6 @@ module DSL
   # Does model exist
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return true | false
@@ -122,7 +149,6 @@ module DSL
   # Does model not exist
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return true | false
@@ -136,7 +162,6 @@ module DSL
   #
   # @param opt
   # - :row
-  # - :using
   # - :root_selector
   # - :wait
   # @return nth node
@@ -151,7 +176,6 @@ module DSL
   # All nodes matching model
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return [node, ...]
@@ -165,7 +189,6 @@ module DSL
   # Does option exist
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return true | false
@@ -182,7 +205,6 @@ module DSL
   # Does option not exist
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return true | false
@@ -196,7 +218,6 @@ module DSL
   #
   # @param opt
   # - :row
-  # - :using
   # - :root_selector
   # - :wait
   # @return nth node
@@ -211,7 +232,6 @@ module DSL
   # All option values matching option
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return [node, ...]
@@ -225,7 +245,6 @@ module DSL
   # Does row exist
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return true | false
@@ -241,7 +260,6 @@ module DSL
   # Does row not exist
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return true | false
@@ -255,7 +273,6 @@ module DSL
   #
   # @param opt
   # - :row
-  # - :using
   # - :root_selector
   # - :wait
   # @return nth node
@@ -271,7 +288,6 @@ module DSL
   # All nodes matching repeater
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return [node, ...]
@@ -286,7 +302,6 @@ module DSL
   #
   # @param opt
   # - :row
-  # - :using
   # - :root_selector
   # - :wait
   # @return nth node
@@ -301,7 +316,6 @@ module DSL
   # Node for column binding value in all rows
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return [node, ...]
@@ -314,7 +328,6 @@ module DSL
   #
   # @param opt
   # - :row
-  # - :using
   # - :root_selector
   # - :wait
   # @return nth node
@@ -327,7 +340,6 @@ module DSL
 
   #
   # @param opt
-  # - :using
   # - :root_selector
   # - :wait
   # @return [node, ...]
