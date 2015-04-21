@@ -1,18 +1,32 @@
 require "angular/version"
 require 'capybara'
+require 'logger'
 
 module Angular
   class NotFound < StandardError
   end
 
+  #
+  # @return selector to find ng-app, by default 'body'
+  #
   def self.root_selector
     @root_slector ||= 'body'
   end
 
+  #
+  # Set global default selector for finding ng-app
+  #
   def self.root_selector=(root_selector)
     @root_selector = root_selector
   end
 
+  def self.logger
+    @logger ||=  defined?(::Rails) ? ::Rails.logger : Logger.new('capybara-ng.log')
+  end
+
+  def self.logger=(logger)
+    @logger = logger
+  end
 end
 
 require 'angular/log'

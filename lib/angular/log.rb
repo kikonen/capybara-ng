@@ -1,5 +1,5 @@
 module Log
   def logger
-    ::Rails.logger
+    ::Angular.logger
   end
 end

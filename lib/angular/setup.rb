@@ -19,28 +19,11 @@ module Angular
 
     #
     # @param opt
-    # - :using
-    # - :root_selector
-    # - :wait
-    #
-    def get_nodes(method, params, opt = {})
-      opt = {
-        nodes: true,
-        using: nil,
-        root_selector: ::Angular.root_selector,
-      }.merge(opt)
-      make_call(method, params, opt)
-    end
-
-    #
-    # @param opt
-    # - :using
     # - :root_selector
     # - :wait
     #
     def get_nodes_2(method, params, opt = {})
       opt = {
-        nodes: false,
         using: nil,
         root_selector: ::Angular.root_selector,
       }.merge(opt)
@@ -49,6 +32,11 @@ module Angular
       make_nodes(ids, opt)
     end
 
+    #
+    # Find nodes matching 'capybara-ng-match' attributes using ids
+    #
+    # @return nodes matching ids
+    #
     def make_nodes(ids, opt)
       result = []
       ids.each do |id|
@@ -65,12 +53,13 @@ module Angular
 
     #
     # @param opt
-    # - :nodes
+    # - :root_selector
     # - :wait
+    #
+    # @return result from page.evaluate_script
     #
     def make_call(method, params, opt = {})
       opt = {
-        nodes: false,
         wait: true,
       }.merge(opt)
 
@@ -94,26 +83,7 @@ module Angular
       js_result = page.evaluate_script(js);
 #      logger.debug js_result
 
-      if opt[:nodes]
-        make_result method, params, js_result
-      else
-        js_result
-      end
-    end
-
-
-    def make_result(method, params, js_result)
-      if js_result.nil? || js_result.empty?
-        raise NotFound.new("#{method}: #{params.inspect}")
-      end
-
-      if js_result.is_a? String
-        raise js_result
-      end
-
-      js_result.map do |el|
-        el ? Capybara::Selenium::Node.new(page.driver, el) : nil
-      end
+      js_result
     end
 
     def angular_app?
