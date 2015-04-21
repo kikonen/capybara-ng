@@ -12,6 +12,7 @@ Based into testing following drivers should work.
 
 - chrome
 - poltergeist
+- selenium (using firefox)
 - webkit
 
 ## Related Projects
