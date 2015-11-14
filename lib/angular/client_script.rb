@@ -766,7 +766,9 @@ FN
   def self.functions
     Hash[
       self.constants.map do |cn|
-        [cn[3, cn.size].to_sym, self.const_get(cn)]
+        name = cn.to_s
+        name = name[3, name.length].to_sym
+        [name, self.const_get(cn)]
       end
     ]
   end
