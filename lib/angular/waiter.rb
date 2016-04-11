@@ -20,7 +20,7 @@ module Angular
     private
 
     def timeout?(start)
-      Time.now - start > Capybara.default_wait_time
+      Time.now - start > Capybara.default_max_wait_time
     end
 
     def timeout!
