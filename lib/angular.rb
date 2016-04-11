@@ -10,7 +10,7 @@ module Angular
   # @return selector to find ng-app, by default 'body'
   #
   def self.root_selector
-    @root_slector ||= 'body'
+    @root_selector ||= 'body'
   end
 
   #
