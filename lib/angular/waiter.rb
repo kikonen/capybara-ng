@@ -69,7 +69,8 @@ module Angular
             });
           };
 
-          var app = angular.element(document.querySelector('[ng-app], [data-ng-app]'));
+          var el = document.querySelector('[ng-app], [data-ng-app]');
+          var app = angular.element(el);
           var injector = app.injector();
           var callback = function() {
             window.ngReady = true;
