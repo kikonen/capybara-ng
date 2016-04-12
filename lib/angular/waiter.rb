@@ -83,8 +83,10 @@ module Angular
 
           try {
             if (angular.getTestability) {
+              nglog("getTestability", [el]);
               angular.getTestability(el).whenStable(callback);
             } else {
+              nglog("$browser", [el]);
               injector.get('$browser').notifyWhenNoOutstandingRequests(callback);
             }
           } catch (e) {
