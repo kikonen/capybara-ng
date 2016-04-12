@@ -1,5 +1,14 @@
 module Angular
 module ClientScript
+#
+# Log calls
+#
+  FN_nglog = <<-FN
+function(method, params) {
+  console.log('NG: ' + method + '(' + params.join(', ') + ')')
+};
+FN
+
 # /**
 #  * Wait until Angular has finished rendering and has
 #  * no outstanding $http calls before continuing.
@@ -11,6 +20,8 @@ module ClientScript
 #  */
   FN_waitForAngular = <<-FN
 function(selector, callback) {
+  nglog("waitForAngular", [selector, callback]);
+
   var el = document.querySelector(selector);
   return el;
   try {
@@ -38,6 +49,8 @@ FN
 #  */
   FN_findBindings = <<-FN
 function(binding, exactMatch, using, rootSelector) {
+  nglog("findBindings", [binding, exactMatch, using, rootSelector]);
+
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
@@ -81,6 +94,8 @@ FN
 #  */
   FN_findBindingsIds = <<-FN
 function(binding, exactMatch, using, rootSelector) {
+  nglog("findBindingsIds", [binding, exactMatch, using, rootSelector]);
+
   var elements = findBindings(binding, exactMatch, using, rootSelector);
   return createCapybaraNgMatches(elements);
 };
@@ -101,6 +116,8 @@ FN
 #  */
   FN_findRepeaterRows = <<-FN
 function(repeater, index, using, rootSelector) {
+  console.log("findRepeaterRows", repeater, index, using, rootSelector);
+
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
@@ -157,6 +174,8 @@ FN
 #  */
   FN_findRepeaterRowsIds = <<-FN
 function(repeater, index, using, rootSelector) {
+  nglog("findRepeaterRowsIds", [repeater, index, using, rootSelector]);
+
   var elements = findRepeaterRows(repeater, index, using, rootSelector);
   return createCapybaraNgMatches(elements);
 };
@@ -173,6 +192,8 @@ FN
  # */
   FN_findAllRepeaterRows = <<-FN
 function(repeater, using, rootSelector) {
+  nglog("findAllRepeaterRows", [repeater, using, rootSelector]);
+
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
@@ -220,6 +241,8 @@ FN
  # */
   FN_findAllRepeaterRowsIds = <<-FN
 function(repeater, using, rootSelector) {
+  nglog("findAllRepeaterRowsIds", [repeater, using, rootSelector]);
+
   var elements = findAllRepeaterRows(repeater, using, rootSelector);
   return createCapybaraNgMatches(elements);
 };
@@ -238,6 +261,8 @@ FN
 #  */
   FN_findRepeaterElement = <<-FN
 function(repeater, index, binding, using, rootSelector) {
+  nglog("findRepeaterElement", [repeater, index, binding, using, rootSelector]);
+
   var matches = [];
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
@@ -338,6 +363,8 @@ FN
 #  */
   FN_findRepeaterElementIds = <<-FN
 function(repeater, index, binding, using, rootSelector) {
+  nglog("findRepeaterElementIds", [repeater, index, binding, using, rootSelector]);
+
   var elements = findRepeaterElement(repeater, index, binding, using, rootSelector);
   return createCapybaraNgMatches(elements);
 };
@@ -355,6 +382,8 @@ FN
 #  */
   FN_findRepeaterColumn = <<-FN
 function(repeater, binding, using, rootSelector) {
+  nglog("findRepeaterColumn", [repeater, binding, using, rootSelector]);
+
   var matches = [];
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
@@ -452,6 +481,8 @@ FN
 #  */
   FN_findRepeaterColumnIds = <<-FN
 function(repeater, binding, using, rootSelector) {
+  nglog("findRepeaterColumnIds", [repeater, binding, using, rootSelector]);
+
   var elements = findRepeaterColumn(repeater, binding, using, rootSelector);
   return createCapybaraNgMatches(elements);
 };
@@ -468,6 +499,8 @@ FN
 #  */
   FN_findByModel = <<-FN
 function(model, using, rootSelector) {
+  nglog("findByModel", [model, using, rootSelector]);
+
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
@@ -498,6 +531,8 @@ FN
 #  */
   FN_findByModelIds = <<-FN
 function(model, using, rootSelector) {
+  nglog("findByModelIds", [model, using, rootSelector]);
+
   var elements = findByModel(model, using, rootSelector);
   return createCapybaraNgMatches(elements);
 };
@@ -515,6 +550,8 @@ FN
 #  */
   FN_findByOptions = <<-FN
 function(optionsDescriptor, using, rootSelector) {
+  nglog("findByOptions", [optionsDescriptor, using, rootSelector]);
+
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
@@ -541,6 +578,8 @@ FN
 #  */
   FN_findByOptionsIds = <<-FN
 function(optionsDescriptor, using, rootSelector) {
+  nglog("findByOptionsIds", [optionsDescriptor, using, rootSelector]);
+
   var elements = findByOptions(optionsDescriptor, using, rootSelector);
   return createCapybaraNgMatches(elements);
 };
@@ -557,6 +596,8 @@ FN
 #  */
   FN_findByButtonText = <<-FN
 function(searchText, using, rootSelector) {
+  nglog("findByButtonText", [searchText, using, rootSelector]);
+
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
@@ -590,6 +631,8 @@ FN
 #  */
   FN_findByPartialButtonText = <<-FN
 function(searchText, using, rootSelector) {
+  nglog("findByPartialButtonText", [searchText, using, rootSelector]);
+
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
@@ -624,6 +667,8 @@ FN
 #  */
   FN_findByCssContainingText = <<-FN
 function(cssSelector, searchText, using, rootSelector) {
+  nglog("findByCssContainingText", [cssSelector, searchText, using, rootSelector]);
+
   rootSelector = rootSelector || 'body';
   using = using || document.querySelector(rootSelector);
 
@@ -651,6 +696,8 @@ FN
 #  */
   FN_testForAngular = <<-FN
 function(attempts, asyncCallback) {
+  nglog("testForAngular", [attempts, asyncCallback]);
+
   var callback = function(args) {
     setTimeout(function() {
       asyncCallback(args);
@@ -687,12 +734,16 @@ FN
 #  */
   FN_evaluate = <<-FN
 function(element, expression) {
+  nglog("evaluate", [element, expression]);
+
   return angular.element(element).scope().$eval(expression);
 };
 FN
 
   FN_allowAnimations = <<-FN
 function(element, value) {
+  nglog("allowAnimations", [element, value]);
+
   var ngElement = angular.element(element);
   if (ngElement.allowAnimations) {
     // AngularDart: $testability API.
@@ -712,6 +763,8 @@ FN
 #  */
   FN_getLocationAbsUrl = <<-FN
 function(selector) {
+  nglog("getLocationAbsUrl", [selector]);
+
   var el = document.querySelector(selector);
   if (angular.getTestability) {
     return angular.getTestability(el).
@@ -730,6 +783,8 @@ FN
 #  */
   FN_getLocation = <<-FN
 function(selector) {
+  nglog("getLocation", [selector]);
+
   var el = document.querySelector(selector);
   var $injector = angular.element(el).injector();
   var $location = $injector.get('$location');
@@ -746,6 +801,8 @@ FN
 #  */
   FN_setLocation = <<-FN
 function(selector, url) {
+  nglog("setLocation", [selector, url]);
+
   var el = document.querySelector(selector);
   if (angular.getTestability) {
     return angular.getTestability(el).

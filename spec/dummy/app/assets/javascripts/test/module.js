@@ -7,6 +7,9 @@
 "use strict";
 
 angular.module('test', [])
+.config(['$compileProvider', function ($compileProvider) {
+  $compileProvider.debugInfoEnabled(true);
+}])
 .controller('TestController', function() {
   this.name = 'bar';
   this.items = [

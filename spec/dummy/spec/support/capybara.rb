@@ -6,7 +6,10 @@ Capybara.register_driver :chrome do |app|
 end
 
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app)
+  Capybara::Poltergeist::Driver.new(
+    app,
+#    phantomjs_logger: Rails.logger,
+    debug: ENV['CAPYBARA_DEBUG'] == 'true')
 end
 
 Capybara.default_driver = :rack_test

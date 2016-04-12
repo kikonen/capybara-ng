@@ -38,6 +38,10 @@ module Angular
 
           window.ngReady = false;
 
+          window. nglog = function(method, params) {
+            console.log('NG: ' + method + '(' + params.join(', ') + ')')
+          };
+
           window.nextCapybaraId = function() {
             window.capybaraId = window.capybaraId || 1;
             return window.capybaraId++;
@@ -73,6 +77,7 @@ module Angular
           var app = angular.element(el);
           var injector = app.injector();
           var callback = function() {
+            nglog("ready", []);
             window.ngReady = true;
           };
 
@@ -83,6 +88,7 @@ module Angular
               injector.get('$browser').notifyWhenNoOutstandingRequests(callback);
             }
           } catch (e) {
+            nglog("callback failed", [e]);
             callback(e);
           }
         })();
