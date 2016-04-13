@@ -10,34 +10,6 @@ function(method, params) {
 FN
 
 # /**
-#  * Wait until Angular has finished rendering and has
-#  * no outstanding $http calls before continuing.
-#  *
-#  * Asynchronous.
-#  *
-#  * @param {string} selector The selector housing an ng-app
-#  * @param {function} callback callback
-#  */
-  FN_waitForAngular = <<-FN
-function(selector, callback) {
-  nglog("waitForAngular", [selector, callback]);
-
-  var el = document.querySelector(selector);
-  return el;
-  try {
-    if (angular.getTestability) {
-      angular.getTestability(el).whenStable(callback);
-    } else {
-      angular.element(el).injector().get('$browser').
-          notifyWhenNoOutstandingRequests(callback);
-    }
-  } catch (e) {
-    callback(e);
-  }
-};
-FN
-
-# /**
 #  * Find a list of elements in the page by their angular binding.
 #  *
 #  * @param {string} binding The binding, e.g. {{cat.name}}.
