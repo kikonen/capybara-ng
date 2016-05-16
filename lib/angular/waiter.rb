@@ -20,7 +20,7 @@ module Angular
     private
 
     def timeout?(start)
-      Time.now - start > Capybara.default_max_wait_time
+      Time.now - start > Angular.wait_time
     end
 
     def timeout!
@@ -77,8 +77,12 @@ module Angular
           var app = angular.element(el);
           var injector = app.injector();
           var callback = function() {
-            nglog("ready", []);
-            window.ngReady = true;
+            nglog("ready-callback", []);
+            var $timeout = injector.get('$timeout');
+            $timeout(function() {
+              nglog("ready-$timeout", []);
+              window.ngReady = true;
+            }, 0);
           };
 
           try {

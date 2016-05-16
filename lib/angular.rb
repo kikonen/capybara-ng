@@ -3,6 +3,8 @@ require 'capybara'
 require 'logger'
 
 module Angular
+  ANGULAR_WAIT_TIME = 2.seconds
+
   class NotFound < StandardError
   end
 
@@ -18,6 +20,14 @@ module Angular
   #
   def self.root_selector=(root_selector)
     @root_selector = root_selector
+  end
+
+  def self.wait_time
+    @wait_time ||= ANGULAR_WAIT_TIME
+  end
+
+  def self.wait_time=(seconds)
+    @wait_time ||= seconds
   end
 
   def self.logger
