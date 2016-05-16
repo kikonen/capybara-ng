@@ -14,3 +14,14 @@ end
 
 Capybara.default_driver = :rack_test
 Capybara.javascript_driver = (ENV['CAPYBARA_DRIVER'] || :webkit).to_sym
+
+drivers = Capybara.drivers.keys.join(', ')
+puts "AVAILABLE CAPYBARA DRIVERS: #{drivers}"
+
+puts "ENV"
+puts "CAPYBARA_DEBUG=#{ENV['CAPYBARA_DEBUG']}"
+puts "CAPYBARA_DRIVER=#{ENV['CAPYBARA_DRIVER']}"
+
+if ENV['CAPYBARA_DRIVER'].blank?
+  raise "Usage: CAPYBARA_DRIVER=poltergeist rspec"
+end
