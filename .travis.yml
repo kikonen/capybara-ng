@@ -10,6 +10,7 @@ gemfile: spec/dummy/Gemfile
 branches:
   only:
     - master
+    - test_*
 
 #before_install:
 #  - "export DISPLAY=:99.0"
