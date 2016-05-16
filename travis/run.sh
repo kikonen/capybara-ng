@@ -20,7 +20,7 @@ EXIT_1_3=$?
 # RSPEC
 #
 echo "rspec - poltergeist"
-xvfb-run -a CAPYBARA_DRIVER=poltergeist bundle exec rspec
+CAPYBARA_DRIVER=poltergeist xvfb-run -a bundle exec rspec
 EXIT_2_1=$?
 
 echo "rspec - webkit"
