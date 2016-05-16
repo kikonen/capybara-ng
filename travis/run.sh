@@ -5,15 +5,15 @@ export BUNDLE_GEMFILE=$PWD/Gemfile
 # CUCUMBER
 #
 echo "cucumber - poltergeist"
-xvfb-run -a export CAPYBARA_DRIVER=poltergeist && bundle exec cucumber
+CAPYBARA_DRIVER=poltergeist xvfb-run -a bundle exec cucumber
 EXIT_1_1=$?
 
 echo "cucumber - webkit"
-xvfb-run -a export CAPYBARA_DRIVER=webkit && bundle exec cucumber
+CAPYBARA_DRIVER=webkit xvfb-run -a bundle exec cucumber
 EXIT_1_2=$?
 
 echo "cucumber - selenium"
-xvfb-run -a export CAPYBARA_DRIVER=selenium && bundle exec cucumber
+CAPYBARA_DRIVER=selenium xvfb-run -a bundle exec cucumber
 EXIT_1_3=$?
 
 #
@@ -24,11 +24,11 @@ CAPYBARA_DRIVER=poltergeist xvfb-run -a bundle exec rspec
 EXIT_2_1=$?
 
 echo "rspec - webkit"
-xvfb-run -a export CAPYBARA_DRIVER=webkit && bundle exec rspec
+CAPYBARA_DRIVER=webkit xvfb-run -a bundle exec rspec
 EXIT_2_2=$?
 
 echo "rspec - selenium"
-xvfb-run -a export CAPYBARA_DRIVER=selenium && bundle exec rspec
+CAPYBARA_DRIVER=selenium xvfb-run -a bundle exec rspec
 EXIT_2_3=$?
 
 #
