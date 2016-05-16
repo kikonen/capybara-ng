@@ -24,7 +24,7 @@ module Angular
     end
 
     def timeout!
-      raise TimeoutError.new("timeout while waiting for angular")
+      raise TimeoutError.new("timeout while waiting for angular (increase Angular.wait_time?)")
     end
 
     def ready?
