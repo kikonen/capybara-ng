@@ -11,6 +11,7 @@ gem 'pry-rails'
 gem 'oj'
 gem 'hashie'
 gem 'pry-byebug'
+gem 'nokogiri', '1.6.3'
 
 # Vendor assets management
 gem 'bower_vendor'
@@ -24,7 +25,7 @@ gem 'webmock'
 gem 'capybara'
 gem 'capybara-ng', path: '../..'
 # if using chrome driver
-gem 'selenium-webdriver'
+gem 'selenium-webdriver', '3.0.1'
 # if using poltergeist driver
 gem 'poltergeist'
 #gem 'chromedriver-helper'
