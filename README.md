@@ -48,7 +48,7 @@ RSpec.configure do |config|
   config.include ::Angular::DSL
   ...
 end
-```
+````
 
 ## Examples
 
@@ -59,7 +59,7 @@ cd spec/dummy
 bundle
 bundle exec rake rspec
 bundle exec rake cucumber
-```
+````
 
 ### Experimenting features
 
@@ -70,10 +70,10 @@ bundle exec rake cucumber
 @see https://github.com/kikonen/sampler/blob/master/dummy/spec/request/task_spec.rb
 
 #### Running Example Test
-````bash
-# download and install chrome-driver
-# http://chromedriver.storage.googleapis.com/index.html
 
+[Download and install chrome-driver](http://chromedriver.storage.googleapis.com/index.html)
+
+````bash
 git clone git@github.com:kikonen/sampler.git
 cd sampler
 cd dummy
@@ -83,7 +83,7 @@ bundle exec rspec spec/request/test_spec.rb
 bundle exec rspec spec/request/task_spec.rb
 fg
 CTRL^C
-```
+````
 
 
 ## Contributing
